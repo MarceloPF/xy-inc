@@ -12,18 +12,18 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class SpringConfigContext extends SpringConfigContextGeneric implements ApplicationContext {
 
-	private static final Log LOG = LogFactory.getLog(SpringConfigContext.class);
+    private static final Log LOG = LogFactory.getLog(SpringConfigContext.class);
 
-	public SpringConfigContext() {
-		LOG.debug(SpringConfigContextGeneric.class.getSimpleName());
-	}
+    public SpringConfigContext() {
+	LOG.debug(SpringConfigContextGeneric.class.getSimpleName());
+    }
 
-	/**
-	 * This causes the factory to be notified of the changes and does not generate a
-	 * debug
-	 */
-	@PostConstruct
-	public void init() {
-		refresh();
-	}
+    /**
+     * This causes the factory to be notified of the changes and does not generate a
+     * debug
+     */
+    @PostConstruct
+    public void init() {
+	refresh();
+    }
 }
