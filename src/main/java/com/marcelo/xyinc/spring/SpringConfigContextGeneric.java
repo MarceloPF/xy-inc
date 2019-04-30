@@ -49,10 +49,10 @@ public class SpringConfigContextGeneric extends AnnotationConfigApplicationConte
     public DataSource restDataSource() {
 	Properties properties = loadPropertiesForHibernate();
 	DataSourceBuilder<?> dataSouce = DataSourceBuilder.create();
-	dataSouce.username(properties.getProperty("hibernate.connection.username"));
-	dataSouce.password(properties.getProperty("hibernate.connection.password"));
-	dataSouce.url(properties.getProperty("hibernate.connection.url"));
-	dataSouce.driverClassName(properties.getProperty("hibernate.connection.driver_class"));
+	dataSouce.username(properties.getProperty("connection.username"));
+	dataSouce.password(properties.getProperty("connection.password"));
+	dataSouce.url(properties.getProperty("connection.url"));
+	dataSouce.driverClassName(properties.getProperty("connection.driver_class"));
 	return dataSouce.build();
     }
 
@@ -80,13 +80,18 @@ public class SpringConfigContextGeneric extends AnnotationConfigApplicationConte
     /** define date access database */
     private Properties loadPropertiesForHibernate() {
 	final Properties properties = new Properties();
-	properties.put("hibernate.connection.driver_class", "org.hsqldb.jdbcDriver");
-	properties.put("hibernate.connection.url", "jdbc:hsqldb:mem:testdb");
-	properties.put("hibernate.connection.username", "sa");
-	properties.put("hibernate.connection.password", "");
+	properties.put("connection.driver_class", "org.hsqldb.jdbcDriver");
+	properties.put("connection.url", "jdbc:hsqldb:file:testdb;hsqldb.lock_file=false;useSSL=false");
+	properties.put("connection.username", "sa");
+	properties.put("connection.password", "");
 	// only for session factory
-	properties.put("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
-	properties.put("hibernate.hbm2ddl.auto", "create-drop");
+	properties.put("dialect", "org.hibernate.dialect.HSQLDialect");
+	properties.put("hbm2ddl.auto", "update");
+	properties.put("pool_size", "3");
+	//show and formater sql
+	properties.put("format_sql", "true");
+	properties.put("show_sql", "true");
+
 	return properties;
     }
 
