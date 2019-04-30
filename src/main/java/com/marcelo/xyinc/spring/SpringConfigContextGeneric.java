@@ -21,6 +21,8 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.support.TransactionTemplate;
 
+import com.marcelo.xyinc.model.Point;
+
 @Configuration(value = "springConfigContextGeneric")
 @EnableTransactionManagement
 @ComponentScan(basePackages = {
@@ -68,7 +70,7 @@ public class SpringConfigContextGeneric extends AnnotationConfigApplicationConte
 	final LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
 	sessionFactoryBean.setDataSource(dataSource);
 	sessionFactoryBean.setHibernateProperties(loadPropertiesForHibernate());
-	final Class<?>[] annotatedClasses = new Class<?>[] { /* add our class here */ };
+	final Class<?>[] annotatedClasses = new Class<?>[] { Point.class };
 	sessionFactoryBean.setAnnotatedClasses(annotatedClasses);
 	sessionFactoryBean.afterPropertiesSet();
 	LOG.info("configured SessionFactory bean: sessionFactory");
@@ -84,7 +86,7 @@ public class SpringConfigContextGeneric extends AnnotationConfigApplicationConte
 	properties.put("hibernate.connection.password", "");
 	// only for session factory
 	properties.put("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
-	properties.put("hibernate.hbm2ddl.auto", "update");
+	properties.put("hibernate.hbm2ddl.auto", "create-drop");
 	return properties;
     }
 
