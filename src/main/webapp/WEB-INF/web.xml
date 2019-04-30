@@ -6,7 +6,6 @@
 	<display-name>Spring 4.2.4 Hibernate 5.0.7 Application</display-name>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
-		<welcome-file>home.jsf</welcome-file>
 	</welcome-file-list>
 	<context-param>
 		<param-name>contextClass</param-name>
