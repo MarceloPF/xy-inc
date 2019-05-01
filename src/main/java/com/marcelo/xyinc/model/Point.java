@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -16,7 +17,8 @@ public class Point implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
+    @SequenceGenerator(name = "seq", sequenceName = "sequence_all", allocationSize = 1)
     private Long id;
 
     @Column(name = "name", nullable = false)
@@ -27,6 +29,12 @@ public class Point implements Serializable {
 
     @Column(name = "poit_y", nullable = false)
     private Float poit_y;
+
+    public Point(String name, Float poit_x, Float poit_y) {
+	this.name = name;
+	this.poit_x = poit_x;
+	this.poit_y = poit_y;
+    }
 
     public Long getId() {
 	return id;

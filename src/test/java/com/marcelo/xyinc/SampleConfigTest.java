@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.web.AnnotationConfigWebContextLoader;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.marcelo.xyinc.spring.SpringConfigContext;
@@ -16,6 +17,7 @@ import com.marcelo.xyinc.spring.SpringConfigContext;
 @Configuration(value = "appTest")
 @ComponentScan
 @EnableWebMvc
+@EnableTransactionManagement
 @WebAppConfiguration
 @ContextConfiguration(loader = AnnotationConfigWebContextLoader.class, classes = SpringConfigContext.class)
 public class SampleConfigTest {

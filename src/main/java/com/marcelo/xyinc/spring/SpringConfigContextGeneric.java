@@ -79,16 +79,16 @@ public class SpringConfigContextGeneric extends AnnotationConfigApplicationConte
     private Properties loadPropertiesForHibernate() {
 	final Properties properties = new Properties();
 	properties.put("connection.driver_class", "org.hsqldb.jdbcDriver");
-	properties.put("connection.url", "jdbc:hsqldb:file:testdb;hsqldb.lock_file=false;useSSL=false");
+	properties.put("connection.url", "jdbc:hsqldb:file:testdb;hsqldb.lock_file=false");
 	properties.put("connection.username", "sa");
 	properties.put("connection.password", "");
 	// only for session factory
-	properties.put("dialect", "org.hibernate.dialect.HSQLDialect");
-	properties.put("hbm2ddl.auto", "update");
-	properties.put("pool_size", "3");
+	properties.put("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
+	properties.put("hibernate.hbm2ddl.auto", "update");
+	properties.put("hibernate.pool_size", "3");
 	//show and formater sql
-	properties.put("format_sql", "true");
-	properties.put("show_sql", "true");
+	properties.put("hibernate.format_sql", "true");
+	properties.put("hibernate.show_sql", "true");
 
 	return properties;
     }
