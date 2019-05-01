@@ -8,8 +8,8 @@ public interface GenericService<E extends Serializable, K extends Serializable> 
 
     public E update(final E object);
 
-    public E findBiId(final K key);
+    public E findById(K key, final Class<?> clazz);
     
-    public int delete(final E object);
+    public void delete(final E object);
 
 }

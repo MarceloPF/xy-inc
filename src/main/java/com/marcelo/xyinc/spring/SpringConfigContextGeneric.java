@@ -27,8 +27,7 @@ import com.marcelo.xyinc.model.Point;
 @EnableTransactionManagement
 @ComponentScan(basePackages = {
 
-	// mapping repository
-	"com.marcelo.xyinc.spring.repository",
+	"com.marcelo.xyinc.spring.repository.impl",
 
 	// mapping services
 	"com.marcelo.xyinc.spring.service",
@@ -45,7 +44,6 @@ public class SpringConfigContextGeneric extends AnnotationConfigApplicationConte
      * @return: DataSource
      */
     @Bean(name = "dataSource")
-    @Autowired
     public DataSource restDataSource() {
 	Properties properties = loadPropertiesForHibernate();
 	DataSourceBuilder<?> dataSouce = DataSourceBuilder.create();
