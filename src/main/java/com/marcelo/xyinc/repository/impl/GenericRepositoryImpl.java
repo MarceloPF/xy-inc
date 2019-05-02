@@ -1,6 +1,7 @@
 package com.marcelo.xyinc.repository.impl;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,10 +10,10 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.marcelo.xyinc.repository.GenericService;
+import com.marcelo.xyinc.repository.GenericRepository;
 
 @Repository
-public class GenericServiceImpl<E extends Serializable, K extends Serializable> implements GenericService<E, K> {
+public class GenericRepositoryImpl<E extends Serializable, K extends Serializable> implements GenericRepository<E, K> {
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -44,6 +45,13 @@ public class GenericServiceImpl<E extends Serializable, K extends Serializable> 
 
     private Session getSession() {
 	return sessionFactory.getCurrentSession();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<E> findAll(Class<?> clazz) {
+	DetachedCriteria criteria = DetachedCriteria.forClass(clazz);
+	return criteria.getExecutableCriteria(getSession()).list();
     }
 
 }

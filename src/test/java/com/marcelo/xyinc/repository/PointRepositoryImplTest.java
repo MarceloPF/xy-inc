@@ -5,6 +5,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
+import org.apache.commons.collections4.CollectionUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -65,6 +68,18 @@ public class PointRepositoryImplTest extends SampleConfigTest {
 	assertTrue(point.getId() > 0);
 	final Point pointById = pointRepository.findById(point.getId(), Point.class);
 	assertNotNull(pointById);
+    }
+
+    @Test
+    @Transactional
+    @Rollback(value = true)
+    public void findAllTest() {
+	final Point point = new Point("Tree test JUnit", 3.2F, 7.1F);
+	pointRepository.save(point);
+	assertNotNull(point.getId());
+	assertTrue(point.getId() > 0);
+	final List<Point> points = pointRepository.findAll(Point.class);
+	assertTrue(CollectionUtils.isNotEmpty(points));
     }
 
     @Test

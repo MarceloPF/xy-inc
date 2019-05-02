@@ -27,10 +27,10 @@ import com.marcelo.xyinc.model.Point;
 @EnableTransactionManagement
 @ComponentScan(basePackages = {
 
-	"com.marcelo.xyinc.spring.repository.impl",
+	"com.marcelo.xyinc.repository.impl",
 
 	// mapping services
-	"com.marcelo.xyinc.spring.service",
+	"com.marcelo.xyinc.service.impl",
 
 	// maping the resouces extra project
 	"com.marcelo.xyinc.filters" })
