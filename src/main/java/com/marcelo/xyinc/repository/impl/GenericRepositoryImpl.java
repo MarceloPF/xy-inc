@@ -33,7 +33,7 @@ public class GenericRepositoryImpl<E extends Serializable, K extends Serializabl
     @SuppressWarnings("unchecked")
     @Override
     public E findById(K key, final Class<?> clazz) {
-	DetachedCriteria criteria = DetachedCriteria.forClass(clazz);
+	final DetachedCriteria criteria = DetachedCriteria.forClass(clazz);
 	criteria.add(Restrictions.eq("id", key));
 	return (E) criteria.getExecutableCriteria(getSession()).uniqueResult();
     }
@@ -43,14 +43,14 @@ public class GenericRepositoryImpl<E extends Serializable, K extends Serializabl
 	getSession().delete(object);
     }
 
-    private Session getSession() {
+    public Session getSession() {
 	return sessionFactory.getCurrentSession();
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public List<E> findAll(Class<?> clazz) {
-	DetachedCriteria criteria = DetachedCriteria.forClass(clazz);
+	final DetachedCriteria criteria = DetachedCriteria.forClass(clazz);
 	return criteria.getExecutableCriteria(getSession()).list();
     }
 

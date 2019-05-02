@@ -51,6 +51,7 @@ public class PointServiceImplTest extends SampleConfigTest {
 	assertNotNull(point.getId());
 	assertTrue(point.getId() > 0);
 	point.setName(point.getName() + " Update");
+	pointService.update(point);
 	// update and valid
 	final Point updatePoint = pointService.findById(point.getId(), Point.class);
 	assertEquals("Two test JUnit Service Update", updatePoint.getName());
@@ -93,8 +94,21 @@ public class PointServiceImplTest extends SampleConfigTest {
     @Test
     @Rollback(value = true)
     public void searchForNearbyPointsTest() {
-	final Point point = new Point("Five test JUnit Service", 33.2F, 25.9F);
-	pointService.save(point);
+	final Point pointA = new Point("Five A test JUnit Service", 31.2F, 23.9F);
+	pointService.save(pointA);
+	final Point pointA1 = new Point("Five A1 test JUnit Service", 32.2F, 22.9F);
+	pointService.save(pointA1);
+	final Point pointA2 = new Point("Five A2 test JUnit Service", 33.2F, 23.09F);
+	pointService.save(pointA2);
+	final List<Point> poits = pointService.searchForNearByPoints(32F, 22F, 5F);
+	assertNotNull(poits);
+	assertEquals(3, poits.size());
+	for (Point key : poits) {
+	    // need that, because save transaction consumed, @Rollback does't work
+	    pointService.delete(key);
+	}
+	final List<Point> hasPoits = pointService.searchForNearByPoints(32F, 22F, 5F);
+	assertTrue(CollectionUtils.isEmpty(hasPoits));
     }
 
     @Test
@@ -110,7 +124,7 @@ public class PointServiceImplTest extends SampleConfigTest {
 
     @Test
     @Rollback(value = true)
-    public void validCoordinationX() {
+    public void validCoordinationXTest() {
 	final Point point = new Point("Sevem test JUnit Service", 33.2F, 25.9F);
 	final Boolean validCoordinationXYes = pointService.validCoordinationX(point);
 	assertTrue(validCoordinationXYes);
@@ -121,7 +135,7 @@ public class PointServiceImplTest extends SampleConfigTest {
 
     @Test
     @Rollback(value = true)
-    public void validCoordinationY() {
+    public void validCoordinationYTest() {
 	final Point point = new Point("Hight test JUnit Service", 33.2F, 25.9F);
 	final Boolean validCoordinationYYes = pointService.validCoordinationY(point);
 	assertTrue(validCoordinationYYes);
@@ -133,7 +147,7 @@ public class PointServiceImplTest extends SampleConfigTest {
 
     @Test
     @Rollback(value = true)
-    public void validPreSave() {
+    public void validPreSaveTest() {
 	final Point point = new Point("Hight test JUnit Service", 33.2F, 25.9F);
 	final Boolean validPreSaveYes = pointService.validPreSave(point);
 	assertTrue(validPreSaveYes);
