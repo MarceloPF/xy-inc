@@ -11,19 +11,16 @@ import org.springframework.transaction.annotation.Transactional;
 import com.marcelo.xyinc.repository.GenericRepository;
 import com.marcelo.xyinc.service.GenericService;
 
-@Service(value = "genericServiceImpl")
+@Service
 @Transactional
 public class GenericServiceImpl<E extends Serializable, K extends Serializable> implements GenericService<E, K> {
 
     private GenericRepository<E, K> genericRepository;
 
-    public GenericServiceImpl(final GenericRepository<E, K> genericRepository) {
-	this.genericRepository = genericRepository;
-    }
-
     @Override
     @Autowired
-    public void setDAO(final @Qualifier("genericRepositoryImpl") GenericRepository<E, K> genericRepository) {
+    @Qualifier("genericRepositoryImpl")
+    public void setDAO(final GenericRepository<E, K> genericRepository) {
 	this.genericRepository = genericRepository;
     }
 
