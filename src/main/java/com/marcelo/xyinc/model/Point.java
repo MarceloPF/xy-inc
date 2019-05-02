@@ -30,6 +30,10 @@ public class Point implements Serializable {
     @Column(name = "poit_y", nullable = false)
     private Float poit_y;
 
+    public Point() {
+
+    }
+
     public Point(String name, Float poit_x, Float poit_y) {
 	this.name = name;
 	this.poit_x = poit_x;
