@@ -123,6 +123,24 @@ public class PointControllerRest {
     }
 
     /**
+     * Delete one point url for request /rest/point/delete
+     * 
+     * Request type: DELETE
+     * 
+     * @param: String name of the point
+     * @param: Float point x
+     * @param: Float point y
+     * @return: JSON Point
+     */
+    @RequestMapping(value = GenericControllerRest.DELETE_POINT, method = RequestMethod.DELETE, produces = {
+	    MediaType.APPLICATION_JSON_VALUE })
+    @ResponseBody
+    public ResponseEntity<?> deletePoint(@RequestParam(value = "id", required = true) final Integer id) {
+	poitService.delete(new Point(id));
+	return new ResponseEntity<String>("[id:" + id + ", result: 'Ok']", HttpStatus.OK);
+    }
+
+    /**
      * Find all points in database, url for request /rest/point/findAllPoints
      * 
      * Request type: GET
