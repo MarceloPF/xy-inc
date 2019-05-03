@@ -58,7 +58,7 @@ public class PointControllerRest {
     }
 
     private void functionsRest(final StringBuffer sb) {
-	String functions[] = { "addPoint", "findAllPoints", "searchForNearbyPoints", "changePoint" };
+	String functions[] = { "addPoint", "findAllPoints", "searchForNearbyPoints", "changePoint", "delete" };
 	for (final String key : functions) {
 	    sb.append("<function><name>");
 	    sb.append(key);
