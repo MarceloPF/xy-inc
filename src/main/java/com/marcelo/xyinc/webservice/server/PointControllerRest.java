@@ -100,6 +100,12 @@ public class PointControllerRest {
     public ResponseEntity<?> findAllPoints() {
 	final List<Point> result = poitService.findAll(Point.class);
 	final ResponseEntity<?> response;
+	response = sendListRequest(result);
+	return response;
+    }
+
+    private ResponseEntity<?> sendListRequest(final List<Point> result) {
+	final ResponseEntity<?> response;
 	if (result == null) {
 	    response = new ResponseEntity<String>(BAD_REQUEST, HttpStatus.BAD_REQUEST);
 	} else {
@@ -125,12 +131,7 @@ public class PointControllerRest {
 	    @RequestParam(value = "maximumDistanceD", required = true) final Float maximumDistance_D) {
 	final List<Point> result = poitService.searchForNearbyPoints(coordination_x, coordination_y, maximumDistance_D);
 	final ResponseEntity<?> response;
-	if (result == null) {
-	    response = new ResponseEntity<String>(BAD_REQUEST, HttpStatus.BAD_REQUEST);
-	} else {
-	    response = new ResponseEntity<Points>(new Points(result), HttpStatus.OK);
-	}
-	LOG.info(result);
+	response = sendListRequest(result);
 	return response;
     }
 
