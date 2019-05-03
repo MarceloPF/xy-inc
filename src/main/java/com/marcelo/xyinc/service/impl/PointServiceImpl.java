@@ -14,7 +14,7 @@ import com.marcelo.xyinc.service.PointService;
 
 @Service(value = "pointServiceImpl")
 @Transactional
-public class PointServiceImpl extends GenericServiceImpl<Point, Long> implements PointService {
+public class PointServiceImpl extends GenericServiceImpl<Point, Integer> implements PointService {
 
     @Autowired
     @Qualifier("pointRepositoryImpl")
@@ -43,12 +43,12 @@ public class PointServiceImpl extends GenericServiceImpl<Point, Long> implements
 
     @Override
     public Boolean validCoordinationX(final Point point) {
-	return point.getPoit_x() != null && point.getPoit_x() > 0;
+	return point.getPoint_x() != null && point.getPoint_x() > 0;
     }
 
     @Override
     public Boolean validCoordinationY(final Point point) {
-	return point.getPoit_y() != null && point.getPoit_y() > 0;
+	return point.getPoint_y() != null && point.getPoint_y() > 0;
     }
 
     @Override

@@ -48,11 +48,11 @@ public class WebAppInitializer implements WebApplicationInitializer {
 	    new MediaType("multipart", "form-data", WebAppInitializer.UTF8),
 	    new MediaType("application", "x-www-form-urlencoded", WebAppInitializer.UTF8));
 
-    public static final String REST_MAP = "/rest/";
+    public static final String REST_MAP = "/rest";
 
-    public static final String SYSTEMWEB_ACECCESS = "/{sys_can_aceccess}";
+    public static final String MARCELO_ACECCESS = "/{sys_can_aceccess}";
 
-    public static final String SYSTEMWEB_ACECCESS_TEXT = "sys_can_aceccess";
+    public static final String MARCELO_ACECCESS_TEXT = "sys_can_aceccess";
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
@@ -71,7 +71,7 @@ public class WebAppInitializer implements WebApplicationInitializer {
 	dispatcher.setThrowExceptionIfNoHandlerFound(true);
 	dispatcher.setPublishContext(true);
 	final Dynamic dynamic = servletContext.addServlet("dispatcher", dispatcher);
-	dynamic.addMapping(WebAppInitializer.REST_MAP + "*");
+	dynamic.addMapping(WebAppInitializer.REST_MAP + "/*");
 	dynamic.setAsyncSupported(true);
 	dynamic.setLoadOnStartup(1);
     }

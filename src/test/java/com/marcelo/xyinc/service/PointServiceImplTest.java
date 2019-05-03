@@ -128,7 +128,7 @@ public class PointServiceImplTest extends SampleConfigTest {
 	final Point point = new Point("Sevem test JUnit Service", 33.2F, 25.9F);
 	final Boolean validCoordinationXYes = pointService.validCoordinationX(point);
 	assertTrue(validCoordinationXYes);
-	point.setPoit_x(-25.8F);
+	point.setPoint_x(-25.8F);
 	final Boolean validCoordinationXNo = pointService.validCoordinationX(point);
 	assertFalse(validCoordinationXNo);
     }
@@ -139,7 +139,7 @@ public class PointServiceImplTest extends SampleConfigTest {
 	final Point point = new Point("Hight test JUnit Service", 33.2F, 25.9F);
 	final Boolean validCoordinationYYes = pointService.validCoordinationY(point);
 	assertTrue(validCoordinationYYes);
-	point.setPoit_y(-2.48F);
+	point.setPoint_y(-2.48F);
 	final Boolean validCoordinationYNo = pointService.validCoordinationY(point);
 	assertFalse(validCoordinationYNo);
 
@@ -151,7 +151,7 @@ public class PointServiceImplTest extends SampleConfigTest {
 	final Point point = new Point("Hight test JUnit Service", 33.2F, 25.9F);
 	final Boolean validPreSaveYes = pointService.validPreSave(point);
 	assertTrue(validPreSaveYes);
-	point.setPoit_y(null);
+	point.setPoint_y(null);
 	final Boolean validPreSaveNo = pointService.validCoordinationY(point);
 	assertFalse(validPreSaveNo);
     }

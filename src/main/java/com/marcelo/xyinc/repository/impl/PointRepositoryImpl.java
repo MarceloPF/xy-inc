@@ -10,7 +10,7 @@ import com.marcelo.xyinc.model.Point;
 import com.marcelo.xyinc.repository.PointRepository;
 
 @Repository
-public class PointRepositoryImpl extends GenericRepositoryImpl<Point, Long> implements PointRepository {
+public class PointRepositoryImpl extends GenericRepositoryImpl<Point, Integer> implements PointRepository {
 
     /**
      * Find all points next coordination (x,y) for system
@@ -31,13 +31,13 @@ public class PointRepositoryImpl extends GenericRepositoryImpl<Point, Long> impl
 	final Float ray_in_x_minimal = coordination_x - maximumDistance_D;
 	final Float ray_in_x_maximal = coordination_x + maximumDistance_D;
 
-	criteria.add(Restrictions.between("poit_x", ray_in_x_minimal, ray_in_x_maximal));
+	criteria.add(Restrictions.between("point_x", ray_in_x_minimal, ray_in_x_maximal));
 
 	// define value for y
 	final Float ray_in_y_minimal = coordination_y - maximumDistance_D;
 	final Float ray_in_y_maximal = coordination_y + maximumDistance_D;
 
-	criteria.add(Restrictions.between("poit_y", ray_in_y_minimal, ray_in_y_maximal));
+	criteria.add(Restrictions.between("point_y", ray_in_y_minimal, ray_in_y_maximal));
 	return criteria.getExecutableCriteria(getSession()).list();
     }
 

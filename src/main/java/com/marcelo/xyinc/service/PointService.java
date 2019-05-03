@@ -3,7 +3,7 @@ package com.marcelo.xyinc.service;
 import com.marcelo.xyinc.model.Point;
 import com.marcelo.xyinc.repository.PointRepository;
 
-public interface PointService extends GenericService<Point, Long>, PointRepository {
+public interface PointService extends GenericService<Point, Integer>, PointRepository {
 
     public Boolean validName(final Point point);
 

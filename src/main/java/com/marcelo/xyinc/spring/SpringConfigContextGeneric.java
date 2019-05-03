@@ -32,6 +32,9 @@ import com.marcelo.xyinc.model.Point;
 	// mapping services
 	"com.marcelo.xyinc.service.impl",
 
+	// mapping webservices server
+	"com.marcelo.xyinc.webservice.server",
+
 	// maping the resouces extra project
 	"com.marcelo.xyinc.filters" })
 public class SpringConfigContextGeneric extends AnnotationConfigApplicationContext implements BeanFactory {
@@ -79,7 +82,7 @@ public class SpringConfigContextGeneric extends AnnotationConfigApplicationConte
     private Properties loadPropertiesForHibernate() {
 	final Properties properties = new Properties();
 	properties.put("connection.driver_class", "org.hsqldb.jdbcDriver");
-	properties.put("connection.url", "jdbc:hsqldb:file:testdb;hsqldb.lock_file=false");
+	properties.put("connection.url", "jdbc:hsqldb:file:src/main/resouces/testdb;hsqldb.lock_file=false");
 	properties.put("connection.username", "sa");
 	properties.put("connection.password", "");
 	// only for session factory
