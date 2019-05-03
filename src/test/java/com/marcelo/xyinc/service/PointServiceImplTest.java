@@ -100,14 +100,14 @@ public class PointServiceImplTest extends SampleConfigTest {
 	pointService.save(pointA1);
 	final Point pointA2 = new Point("Five A2 test JUnit Service", 33.2F, 23.09F);
 	pointService.save(pointA2);
-	final List<Point> poits = pointService.searchForNearByPoints(32F, 22F, 5F);
+	final List<Point> poits = pointService.searchForNearbyPoints(32F, 22F, 5F);
 	assertNotNull(poits);
 	assertEquals(3, poits.size());
 	for (Point key : poits) {
 	    // need that, because save transaction consumed, @Rollback does't work
 	    pointService.delete(key);
 	}
-	final List<Point> hasPoits = pointService.searchForNearByPoints(32F, 22F, 5F);
+	final List<Point> hasPoits = pointService.searchForNearbyPoints(32F, 22F, 5F);
 	assertTrue(CollectionUtils.isEmpty(hasPoits));
     }
 
