@@ -8,4 +8,6 @@ public interface GenericControllerRest {
 
     public final static String ADD_POINT = "/addPoint";
 
+    public final static String FIND_ALL = "/findAllPoints";
+
 }

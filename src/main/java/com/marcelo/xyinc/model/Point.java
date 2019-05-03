@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "point")
-@JsonIgnoreProperties(ignoreUnknown = true, allowGetters=true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Point implements Serializable {
 
     private static final long serialVersionUID = 1L;
