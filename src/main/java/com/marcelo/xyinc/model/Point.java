@@ -1,7 +1,5 @@
 package com.marcelo.xyinc.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Entity
 @Table(name = "point")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Point implements Serializable {
+public class Point implements GenericModel {
 
     private static final long serialVersionUID = 1L;
 

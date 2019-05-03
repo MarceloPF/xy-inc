@@ -9,6 +9,8 @@ public interface GenericControllerRest {
     public final static String ADD_POINT = "/addPoint";
 
     public final static String UPDATE_POINT = "/changePoint";
+    
+    public final static String DELETE_POINT = "/delete";
 
     public final static String FIND_ALL = "/findAllPoints";
 
