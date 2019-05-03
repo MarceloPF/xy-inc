@@ -87,6 +87,7 @@ public class SpringConfigContextGeneric extends AnnotationConfigApplicationConte
 	properties.put("connection.password", "");
 	// only for session factory
 	properties.put("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
+	properties.put("hibernate.bytecode.use_reflection_optimizer", "true");
 	properties.put("hibernate.hbm2ddl.auto", "update");
 	properties.put("hibernate.pool_size", "3");
 	//show and formater sql

@@ -13,19 +13,19 @@ import com.marcelo.xyinc.service.GenericService;
 
 @Service
 @Transactional
-public class GenericServiceImpl<E extends Serializable, K extends Serializable> implements GenericService<E, K> {
+public class GenericServiceImpl<K extends Serializable, E extends Serializable> implements GenericService<K, E> {
 
-    private GenericRepository<E, K> genericRepository;
+    private GenericRepository<K, E> genericRepository;
 
     @Override
     @Autowired
     @Qualifier("genericRepositoryImpl")
-    public void setDAO(final GenericRepository<E, K> genericRepository) {
+    public void setDAO(final GenericRepository<K, E> genericRepository) {
 	this.genericRepository = genericRepository;
     }
 
     @Override
-    public GenericRepository<E, K> getDAO() {
+    public GenericRepository<K, E> getDAO() {
 	return genericRepository;
     }
 
@@ -70,5 +70,6 @@ public class GenericServiceImpl<E extends Serializable, K extends Serializable> 
     public boolean validPreSave(E object) {
 	return true;
     }
+
 
 }

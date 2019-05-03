@@ -14,7 +14,7 @@ import com.marcelo.xyinc.service.PointService;
 
 @Service(value = "pointServiceImpl")
 @Transactional
-public class PointServiceImpl extends GenericServiceImpl<Point, Integer> implements PointService {
+public class PointServiceImpl extends GenericServiceImpl<Integer, Point> implements PointService {
 
     @Autowired
     @Qualifier("pointRepositoryImpl")

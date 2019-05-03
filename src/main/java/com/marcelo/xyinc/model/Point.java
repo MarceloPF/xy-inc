@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "point")
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(ignoreUnknown = true, allowGetters=true)
 public class Point implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -23,6 +23,7 @@ public class Point implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
     @SequenceGenerator(name = "seq", sequenceName = "sequence_all", allocationSize = 1)
+    @JsonProperty("id")
     private Integer id;
 
     @Column(name = "name", nullable = false)
@@ -38,6 +39,17 @@ public class Point implements Serializable {
 
     public Point() {
 
+    }
+
+    public Point(Integer id, String name, Float point_x, Float point_y) {
+	this.name = name;
+	this.point_x = point_x;
+	this.point_y = point_y;
+	this.id = id;
+    }
+
+    public Point(Integer id) {
+	this.id = id;
     }
 
     public Point(String name, Float point_x, Float point_y) {

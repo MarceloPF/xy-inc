@@ -4,11 +4,11 @@ import java.io.Serializable;
 
 import com.marcelo.xyinc.repository.GenericRepository;
 
-public interface GenericService<E extends Serializable, K extends Serializable> extends GenericRepository<E, K> {
+public interface GenericService<K extends Serializable, E extends Serializable> extends GenericRepository<K, E> {
 
-    public void setDAO(final GenericRepository<E, K> genericRepository);
+    public void setDAO(final GenericRepository<K, E> genericRepository);
 
-    public GenericRepository<E, K> getDAO();
+    public GenericRepository<K, E> getDAO();
     
     public boolean validPreSave(E object);
 }

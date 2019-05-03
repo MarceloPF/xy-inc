@@ -13,15 +13,15 @@ import org.springframework.stereotype.Repository;
 import com.marcelo.xyinc.repository.GenericRepository;
 
 @Repository
-public class GenericRepositoryImpl<E extends Serializable, K extends Serializable> implements GenericRepository<E, K> {
+public class GenericRepositoryImpl<K extends Serializable, E extends Serializable> implements GenericRepository<K, E> {
 
     @Autowired
     private SessionFactory sessionFactory;
 
-    @SuppressWarnings("unchecked")
     @Override
     public E save(final E object) {
-	return (E) getSession().save(object);
+	getSession().save(object);
+	return (E) object;
     }
 
     @Override

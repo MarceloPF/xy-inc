@@ -3,7 +3,7 @@ package com.marcelo.xyinc.repository;
 import java.io.Serializable;
 import java.util.List;
 
-public interface GenericRepository<E extends Serializable, K extends Serializable> {
+public interface GenericRepository<K extends Serializable, E extends Serializable> {
 
     public E save(final E object);
 

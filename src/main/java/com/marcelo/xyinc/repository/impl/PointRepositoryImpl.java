@@ -10,7 +10,7 @@ import com.marcelo.xyinc.model.Point;
 import com.marcelo.xyinc.repository.PointRepository;
 
 @Repository
-public class PointRepositoryImpl extends GenericRepositoryImpl<Point, Integer> implements PointRepository {
+public class PointRepositoryImpl extends GenericRepositoryImpl<Integer, Point> implements PointRepository {
 
     /**
      * Find all points next coordination (x,y) for system
