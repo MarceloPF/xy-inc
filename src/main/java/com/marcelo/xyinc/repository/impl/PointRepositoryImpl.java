@@ -25,7 +25,7 @@ public class PointRepositoryImpl extends GenericRepositoryImpl<Integer, Point> i
      */
     @SuppressWarnings("unchecked")
     @Override
-    public List<Point> searchForNearByPoints(Float coordination_x, Float coordination_y, Float maximumDistance_D) {
+    public List<Point> searchForNearbyPoints(Float coordination_x, Float coordination_y, Float maximumDistance_D) {
 	final DetachedCriteria criteria = DetachedCriteria.forClass(Point.class);
 	// define value for x
 	final Float ray_in_x_minimal = coordination_x - maximumDistance_D;

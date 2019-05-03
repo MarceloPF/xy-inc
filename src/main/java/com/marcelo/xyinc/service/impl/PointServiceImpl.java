@@ -32,8 +32,8 @@ public class PointServiceImpl extends GenericServiceImpl<Integer, Point> impleme
     }
 
     @Override
-    public List<Point> searchForNearByPoints(Float coordination_x, Float coordination_y, Float maximumDistance_D) {
-	return getDAO().searchForNearByPoints(coordination_x, coordination_y, maximumDistance_D);
+    public List<Point> searchForNearbyPoints(Float coordination_x, Float coordination_y, Float maximumDistance_D) {
+	return getDAO().searchForNearbyPoints(coordination_x, coordination_y, maximumDistance_D);
     }
 
     @Override

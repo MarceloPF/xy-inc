@@ -97,8 +97,33 @@ public class PointControllerRest {
 	    MediaType.APPLICATION_JSON_VALUE })
     @ResponseBody
     public ResponseEntity<?> findAllPoints() {
-	final ResponseEntity<?> response;
 	final List<Point> result = poitService.findAll(Point.class);
+	final ResponseEntity<?> response;
+	if (result == null) {
+	    response = new ResponseEntity<String>(BAD_REQUEST, HttpStatus.BAD_REQUEST);
+	} else {
+	    response = new ResponseEntity<Points>(new Points(result), HttpStatus.OK);
+	}
+	LOG.info(result);
+	return response;
+    }
+
+    /**
+     * Search all points near a point configuring your search radius, url for request /rest/point/searchForNearbyPoints
+     * 
+     * Request type: GET
+     * 
+     * @return: JSON List<Points>
+     */
+    @RequestMapping(value = GenericControllerRest.SEARCH_ALL, method = RequestMethod.GET, produces = {
+	    MediaType.APPLICATION_JSON_VALUE })
+    @ResponseBody
+    public ResponseEntity<?> searchForNearbyPoints(
+	    @RequestParam(value = "coordinationX", required = true) final Float coordination_x,
+	    @RequestParam(value = "coordinationY", required = true) final Float coordination_y,
+	    @RequestParam(value = "maximumDistanceD", required = true) final Float maximumDistance_D) {
+	final List<Point> result = poitService.searchForNearbyPoints(coordination_x, coordination_y, maximumDistance_D);
+	final ResponseEntity<?> response;
 	if (result == null) {
 	    response = new ResponseEntity<String>(BAD_REQUEST, HttpStatus.BAD_REQUEST);
 	} else {
