@@ -53,6 +53,7 @@ public class PointControllerRest {
 	sb.append("<functions>");
 	sb.append("<function><name>addPoint</name></function>");
 	sb.append("<function><name>findAllPoints</name></function>");
+	sb.append("<function><name>searchForNearbyPoints</name></function>");
 	sb.append("</functions>");
 	sb.append(" </info>");
 	return sb.toString();
