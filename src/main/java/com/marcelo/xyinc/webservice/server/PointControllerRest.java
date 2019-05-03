@@ -51,12 +51,19 @@ public class PointControllerRest {
 	final StringBuffer sb = new StringBuffer("<info> ");
 	sb.append("<name-call>info</name-call>");
 	sb.append("<functions>");
-	sb.append("<function><name>addPoint</name></function>");
-	sb.append("<function><name>findAllPoints</name></function>");
-	sb.append("<function><name>searchForNearbyPoints</name></function>");
+	functionsRest(sb);
 	sb.append("</functions>");
 	sb.append(" </info>");
 	return sb.toString();
+    }
+
+    private void functionsRest(final StringBuffer sb) {
+	String functions[] = { "addPoint", "findAllPoints", "searchForNearbyPoints", "changePoint" };
+	for (final String key : functions) {
+	    sb.append("<function><name>");
+	    sb.append(key);
+	    sb.append("</name></function>");
+	}
     }
 
     /**
@@ -82,7 +89,7 @@ public class PointControllerRest {
     }
 
     /**
-     * Change one point url for request /rest/point/changePoint
+     * Update one point url for request /rest/point/changePoint
      * 
      * Request type: POST
      * 
