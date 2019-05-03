@@ -77,6 +77,34 @@ public class PointControllerRest {
 	    @RequestParam(value = "pointY", required = false) final Float poitY) {
 	final Point point = new Point(name, poitX, poitY);
 	final Point result = poitService.save(point);
+	final ResponseEntity<?> response = answerRequestOne(result);
+	return response;
+    }
+
+    /**
+     * Change one point url for request /rest/point/changePoint
+     * 
+     * Request type: POST
+     * 
+     * @param: String name of the point
+     * @param: Float point x
+     * @param: Float point y
+     * @return: JSON Point
+     */
+    @RequestMapping(value = GenericControllerRest.UPDATE_POINT, method = RequestMethod.POST, produces = {
+	    MediaType.APPLICATION_JSON_VALUE })
+    @ResponseBody
+    public ResponseEntity<?> changePoint(@RequestParam(value = "id", required = true) final Integer id,
+	    @RequestParam(value = "name", required = false) final String name,
+	    @RequestParam(value = "pointX", required = false) final Float poitX,
+	    @RequestParam(value = "pointY", required = false) final Float poitY) {
+	final Point point = new Point(id, name, poitX, poitY);
+	final Point result = poitService.update(point);
+	final ResponseEntity<?> response = answerRequestOne(result);
+	return response;
+    }
+
+    private ResponseEntity<?> answerRequestOne(final Point result) {
 	final ResponseEntity<?> response;
 	if (result == null) {
 	    response = new ResponseEntity<String>(BAD_REQUEST, HttpStatus.BAD_REQUEST);
@@ -116,7 +144,8 @@ public class PointControllerRest {
     }
 
     /**
-     * Search all points near a point configuring your search radius, url for request /rest/point/searchForNearbyPoints
+     * Search all points near a point configuring your search radius, url for
+     * request /rest/point/searchForNearbyPoints
      * 
      * Request type: GET
      * 
