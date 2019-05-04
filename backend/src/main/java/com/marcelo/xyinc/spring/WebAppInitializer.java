@@ -52,8 +52,10 @@ public class WebAppInitializer extends WebMvcConfigurationSupport implements Web
 
     public static final String REST_MAP = "/rest";
 
+    //TODO implement authentic RestFull
     public static final String MARCELO_ACECCESS = "/{sys_can_aceccess}";
 
+    //TODO implement authentic RestFull
     public static final String MARCELO_ACECCESS_TEXT = "sys_can_aceccess";
 
     @Override
@@ -121,7 +123,8 @@ public class WebAppInitializer extends WebMvcConfigurationSupport implements Web
 	super.addDefaultHttpMessageConverters(converters);
     }
 
-    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
+    /** Configure for converter for models */
+    private MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
 	final MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
 	jsonConverter.setSupportedMediaTypes(WebAppInitializer.MEDIA_TYPE);
 	ObjectMapper objectMapper = new ObjectMapper();
@@ -130,6 +133,7 @@ public class WebAppInitializer extends WebMvcConfigurationSupport implements Web
 	return jsonConverter;
     }
 
+    /** Configure for converter for form html */
     private FormHttpMessageConverter createFormHttpMessage(final List<HttpMessageConverter<?>> converters) {
 	converters.add(createByteArrayHttpConverter());
 	final FormHttpMessageConverter converter = new FormHttpMessageConverter();
@@ -138,35 +142,35 @@ public class WebAppInitializer extends WebMvcConfigurationSupport implements Web
 	return converter;
     }
 
-    /** Configure our converter for String */
+    /** Configure for converter for String */
     private HttpMessageConverter<?> createStringHttpConverter() {
 	final StringHttpMessageConverter stringHttpMessageConverter = new StringHttpMessageConverter();
 	stringHttpMessageConverter.setSupportedMediaTypes(WebAppInitializer.MEDIA_TYPE);
 	return stringHttpMessageConverter;
     }
 
-    /** Configure our converter for http form */
+    /** Configure for converter for http form */
     private HttpMessageConverter<?> formHttpConverter() {
 	final FormHttpMessageConverter formHttpMessageConverter = new FormHttpMessageConverter();
 	formHttpMessageConverter.setSupportedMediaTypes(WebAppInitializer.MEDIA_TYPE);
 	return formHttpMessageConverter;
     }
 
-    /** Configure our converter for resource */
+    /** Configure for converter for resource */
     private HttpMessageConverter<?> createResourceHttpMessageConverter() {
 	final ResourceHttpMessageConverter byteArrayHttp = new ResourceHttpMessageConverter();
 	byteArrayHttp.setSupportedMediaTypes(WebAppInitializer.MEDIA_TYPE);
 	return byteArrayHttp;
     }
 
-    /** Configure our converter for AllEncompassingFormHttp */
+    /** Configure for converter for AllEncompassingFormHttp */
     private HttpMessageConverter<?> createAllEncompassingFormHttpMessageConverter() {
 	final AllEncompassingFormHttpMessageConverter byteArrayHttp = new AllEncompassingFormHttpMessageConverter();
 	byteArrayHttp.setSupportedMediaTypes(WebAppInitializer.MEDIA_TYPE);
 	return byteArrayHttp;
     }
 
-    /** Configure our converter for AllEncompassingFormHttp */
+    /** Configure for converter for AllEncompassingFormHttp */
     private HttpMessageConverter<?> createByteArrayHttpConverter() {
 	final ByteArrayHttpMessageConverter byteArrayHttp = new ByteArrayHttpMessageConverter();
 	return byteArrayHttp;
