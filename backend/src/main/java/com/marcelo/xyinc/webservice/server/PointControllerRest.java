@@ -2,6 +2,8 @@ package com.marcelo.xyinc.webservice.server;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +11,17 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.marcelo.xyinc.model.Point;
@@ -25,31 +34,29 @@ import com.marcelo.xyinc.service.PointService;
  */
 
 @RestController
-@RequestMapping(value = GenericControllerRest.ROOT_POIT)
+@RequestMapping(GenericControllerRest.REST_VERSION)
 public class PointControllerRest {
 
     private static final Log LOG = LogFactory.getLog(PointControllerRest.class);
-
-    private static final String BAD_REQUEST = "{error:['code': 400, description: 'Bad request']}";
 
     @Autowired
     @Qualifier("pointServiceImpl")
     private PointService poitService;
 
     /**
-     * Info about webservice url: /rest/point/info
+     * Info about webservice url: /rest/api/v1/point/info
      * 
      * Request type: GET
      * 
-     * @return: xml with functins for webservice /rest/point
+     * @return: xml with functins for webservice /rest/api/v1/point/info
      * 
      */
-    @RequestMapping(value = GenericControllerRest.INFO, method = RequestMethod.GET, produces = MediaType.TEXT_XML_VALUE)
+    @RequestMapping(value = "/point/info", produces = MediaType.TEXT_XML_VALUE)
     @ResponseBody
     public String info() {
-	LOG.debug("REST: " + GenericControllerRest.ROOT_POIT + GenericControllerRest.INFO);
+	LOG.debug("REST: /rest/api/v1/point/info");
 	final StringBuffer sb = new StringBuffer("<info> ");
-	sb.append("<name-call>info</name-call>");
+	sb.append("<name-call>info, more details see documentation </name-call>");
 	sb.append("<functions>");
 	functionsRest(sb);
 	sb.append("</functions>");
@@ -58,7 +65,7 @@ public class PointControllerRest {
     }
 
     private void functionsRest(final StringBuffer sb) {
-	String functions[] = { "addPoint", "findAllPoints", "searchForNearbyPoints", "changePoint", "delete" };
+	String functions[] = { "createPoint", "updatePoint", "deletePoint", "findAllPoints", "searchForNearbyPoints" };
 	for (final String key : functions) {
 	    sb.append("<function><name>");
 	    sb.append(key);
@@ -67,45 +74,34 @@ public class PointControllerRest {
     }
 
     /**
-     * Registray one point url for request /rest/point/addPoint
+     * Registray one point url for request /rest/api/v1/point
      * 
      * Request type: POST
      * 
-     * @param: String name of the point
-     * @param: Float point x
-     * @param: Float point y
+     * @param: Point one point
+     * 
      * @return: JSON Point
      */
-    @RequestMapping(value = GenericControllerRest.ADD_POINT, method = RequestMethod.POST, produces = {
-	    MediaType.APPLICATION_JSON_VALUE })
-    @ResponseBody
-    public ResponseEntity<?> addPoint(@RequestParam(value = "name", required = false) final String name,
-	    @RequestParam(value = "pointX", required = false) final Float poitX,
-	    @RequestParam(value = "pointY", required = false) final Float poitY) {
-	final Point point = new Point(name, poitX, poitY);
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping(value = "/point", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> createPoint(@RequestBody Point point) {
 	final Point result = poitService.save(point);
 	final ResponseEntity<?> response = answerRequestOne(result);
 	return response;
     }
 
     /**
-     * Update one point url for request /rest/point/changePoint
+     * Update one point url for request /rest/api/v1/point/{id}
      * 
-     * Request type: POST
+     * Request type: PUT
      * 
-     * @param: String name of the point
-     * @param: Float point x
-     * @param: Float point y
+     * @param: Point one point
+     * 
      * @return: JSON Point
      */
-    @RequestMapping(value = GenericControllerRest.UPDATE_POINT, method = RequestMethod.POST, produces = {
-	    MediaType.APPLICATION_JSON_VALUE })
+    @PutMapping(value = "/point/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<?> changePoint(@RequestParam(value = "id", required = true) final Integer id,
-	    @RequestParam(value = "name", required = false) final String name,
-	    @RequestParam(value = "pointX", required = false) final Float poitX,
-	    @RequestParam(value = "pointY", required = false) final Float poitY) {
-	final Point point = new Point(id, name, poitX, poitY);
+    public ResponseEntity<?> updatePoint(@PathVariable(value = "id") Long id, @Valid @RequestBody Point point) {
 	final Point result = poitService.update(point);
 	final ResponseEntity<?> response = answerRequestOne(result);
 	return response;
@@ -114,7 +110,7 @@ public class PointControllerRest {
     private ResponseEntity<?> answerRequestOne(final Point result) {
 	final ResponseEntity<?> response;
 	if (result == null) {
-	    response = new ResponseEntity<String>(BAD_REQUEST, HttpStatus.BAD_REQUEST);
+	    response = new ResponseEntity<String>(GenericControllerRest.BAD_REQUEST, HttpStatus.BAD_REQUEST);
 	} else {
 	    response = new ResponseEntity<Point>(result, HttpStatus.OK);
 	}
@@ -123,32 +119,29 @@ public class PointControllerRest {
     }
 
     /**
-     * Delete one point url for request /rest/point/delete
+     * Delete one point url for request /rest/api/v1/point/{id}
      * 
      * Request type: DELETE
      * 
-     * @param: String name of the point
-     * @param: Float point x
-     * @param: Float point y
+     * @param: Integer id of the point
+     * 
      * @return: JSON Point
      */
-    @RequestMapping(value = GenericControllerRest.DELETE_POINT, method = RequestMethod.DELETE, produces = {
-	    MediaType.APPLICATION_JSON_VALUE })
+    @DeleteMapping(value = "/point/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<?> deletePoint(@RequestParam(value = "id", required = true) final Integer id) {
+    public ResponseEntity<?> deletePoint(@PathVariable(value = "id") final Integer id) {
 	poitService.delete(new Point(id));
 	return new ResponseEntity<String>("[id:" + id + ", result: 'Ok']", HttpStatus.OK);
     }
 
     /**
-     * Find all points in database, url for request /rest/point/findAllPoints
+     * Find all points in database, url for request /rest/api/v1/point
      * 
      * Request type: GET
      * 
      * @return: JSON List<Point>
      */
-    @RequestMapping(value = GenericControllerRest.FIND_ALL, method = RequestMethod.GET, produces = {
-	    MediaType.APPLICATION_JSON_VALUE })
+    @GetMapping(value = "/point", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<?> findAllPoints() {
 	final List<Point> result = poitService.findAll(Point.class);
@@ -160,7 +153,7 @@ public class PointControllerRest {
     private ResponseEntity<?> sendListRequest(final List<Point> result) {
 	final ResponseEntity<?> response;
 	if (result == null) {
-	    response = new ResponseEntity<String>(BAD_REQUEST, HttpStatus.BAD_REQUEST);
+	    response = new ResponseEntity<String>(GenericControllerRest.BAD_REQUEST, HttpStatus.BAD_REQUEST);
 	} else {
 	    response = new ResponseEntity<Points>(new Points(result), HttpStatus.OK);
 	}
@@ -169,14 +162,16 @@ public class PointControllerRest {
     }
 
     /**
-     * Search all points near a point configuring your search radius, url for
-     * request /rest/point/searchForNearbyPoints
+     * Search all points near a point configuring your search radius,
+     * 
+     * url:
+     * /rest/api/v1/point/searchForNearbyPoints?coordinationX=1&coordinationY=1&maximumDistanceD=1
      * 
      * Request type: GET
      * 
      * @return: JSON List<Points>
      */
-    @RequestMapping(value = GenericControllerRest.SEARCH_ALL, method = RequestMethod.GET, produces = {
+    @RequestMapping(value = "/point/searchForNearbyPoints", method = RequestMethod.GET, produces = {
 	    MediaType.APPLICATION_JSON_VALUE })
     @ResponseBody
     public ResponseEntity<?> searchForNearbyPoints(

@@ -7,13 +7,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "point")
 @JsonIgnoreProperties(ignoreUnknown = true)
+@XmlRootElement
 public class Point implements GenericModel {
 
     private static final long serialVersionUID = 1L;
@@ -21,22 +22,25 @@ public class Point implements GenericModel {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
     @SequenceGenerator(name = "seq", sequenceName = "sequence_all", allocationSize = 1)
-    @JsonProperty("id")
     private Integer id;
 
     @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "point_x", nullable = false)
-    @JsonProperty("pointX")
     private Float point_x;
 
     @Column(name = "point_y", nullable = false)
-    @JsonProperty("pointY")
     private Float point_y;
 
     public Point() {
 
+    }
+
+    public Point(String name, Float point_x, Float point_y) {
+	this.name = name;
+	this.point_x = point_x;
+	this.point_y = point_y;
     }
 
     public Point(Integer id, String name, Float point_x, Float point_y) {
@@ -48,12 +52,6 @@ public class Point implements GenericModel {
 
     public Point(Integer id) {
 	this.id = id;
-    }
-
-    public Point(String name, Float point_x, Float point_y) {
-	this.name = name;
-	this.point_x = point_x;
-	this.point_y = point_y;
     }
 
     public Integer getId() {

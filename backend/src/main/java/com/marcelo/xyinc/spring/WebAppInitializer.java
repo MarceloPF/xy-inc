@@ -1,7 +1,6 @@
 package com.marcelo.xyinc.spring;
 
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,8 +11,8 @@ import javax.servlet.ServletRegistration.Dynamic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
@@ -31,13 +30,16 @@ import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.marcelo.xyinc.filters.CharacterEncodingFilter;
-
 @Configuration(value = "webapp")
 @EnableWebMvc
+@ComponentScan
 @EnableScheduling
-public class WebAppInitializer implements WebApplicationInitializer {
+public class WebAppInitializer extends WebMvcConfigurationSupport implements WebApplicationInitializer {
 
     private static final Charset UTF8 = Charset.forName("UTF-8");
 
@@ -56,60 +58,84 @@ public class WebAppInitializer implements WebApplicationInitializer {
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
-	final AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
+
+	final AnnotationConfigWebApplicationContext context = createContext();
 	context.register(SpringConfigContext.class);
-	// define listener to spring for contexto
-	servletContext.addListener(new ContextLoaderListener(context));
-	servletContext.addListener(new RequestContextListener());
-	context.setServletContext(servletContext);
+	addListenerForContext(servletContext, context);
+	addFilters(servletContext);
+	context.refresh();
 
+	configureRest(servletContext, createDispatcherServlet(context));
+    }
+
+    private AnnotationConfigWebApplicationContext createContext() {
+	return new AnnotationConfigWebApplicationContext();
+    }
+
+    private void addFilters(ServletContext servletContext) {
 	servletContext.addFilter("encoding", new CharacterEncodingFilter());
+    }
 
-	// dipacher Spring
-	final DispatcherServlet dispatcher = new DispatcherServlet(context);
-	dispatcher.setDispatchTraceRequest(true);
-	dispatcher.setThrowExceptionIfNoHandlerFound(true);
-	dispatcher.setPublishContext(true);
-	final Dynamic dynamic = servletContext.addServlet("dispatcher", dispatcher);
+    private void configureRest(ServletContext servletContext, final DispatcherServlet servlet) {
+	final Dynamic dynamic = servletContext.addServlet(WebAppInitializer.REST_MAP, servlet);
 	dynamic.addMapping(WebAppInitializer.REST_MAP + "/*");
 	dynamic.setAsyncSupported(true);
 	dynamic.setLoadOnStartup(1);
     }
 
+    private DispatcherServlet createDispatcherServlet(final AnnotationConfigWebApplicationContext context) {
+	return new DispatcherServlet(context);
+    }
+
+    private void addListenerForContext(ServletContext servletContext,
+	    final AnnotationConfigWebApplicationContext context) {
+	// define listener to spring for context
+	servletContext.addListener(new ContextLoaderListener(context));
+	servletContext.addListener(new RequestContextListener());
+	context.setServletContext(servletContext);
+    }
+
+    @Bean(name = "httpComponentsClientHttpRequestFactoryAll")
+    public HttpComponentsClientHttpRequestFactory httpComponentsClientHttpRequestFactoryAll() {
+	return new HttpComponentsClientHttpRequestFactory();
+    }
+
     /** Configure our restTemplate */
-    @Bean(name = "restTemplateAll")
-    @Scope("prototype")
+    @Bean(name = "restTemplate")
     @Autowired
-    public RestTemplate restTemplateAll(
-	    @Qualifier("httpComponentsClientHttpRequestFactoryAll") final HttpComponentsClientHttpRequestFactory httpComponentsClientHttpRequestFactory,
-	    @Qualifier("mappingJackson2HttpMessageConverter") final MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter) {
+    public RestTemplate restTemplate(
+	    @Qualifier("httpComponentsClientHttpRequestFactoryAll") final HttpComponentsClientHttpRequestFactory httpComponentsClientHttpRequestFactory) {
 	final RestTemplate restTemplate = new RestTemplate(httpComponentsClientHttpRequestFactory);
-	restTemplate.setMessageConverters(buildListConverters(mappingJackson2HttpMessageConverter));
 	return restTemplate;
     }
 
-    /** Create converts for our system */
-    private List<HttpMessageConverter<?>> buildListConverters(
-	    final MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter) {
-	final List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
-	// string
-	messageConverters.add(createStringHttpConverter());
-	// http
-	messageConverters.add(formHttpConverter());
-	// resource
-	messageConverters.add(createResourceHttpMessageConverter());
-	// AllEncompassingFormHttp
-	messageConverters.add(createAllEncompassingFormHttpMessageConverter());
-	if (mappingJackson2HttpMessageConverter != null) {
-	    messageConverters.add(mappingJackson2HttpMessageConverter);
-	}
-	// byte array
-	messageConverters.add(createByteArrayHttpConverter());
+    @Override
+    public void configureMessageConverters(final List<HttpMessageConverter<?>> converters) {
+	converters.clear();
+	converters.add(createStringHttpConverter());
+	converters.add(formHttpConverter());
+	converters.add(createResourceHttpMessageConverter());
+	converters.add(createAllEncompassingFormHttpMessageConverter());
+	converters.add(mappingJackson2HttpMessageConverter());
+	converters.add(createFormHttpMessage(converters));
+	super.addDefaultHttpMessageConverters(converters);
+    }
+
+    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
+	final MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
+	jsonConverter.setSupportedMediaTypes(WebAppInitializer.MEDIA_TYPE);
+	ObjectMapper objectMapper = new ObjectMapper();
+	objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+	jsonConverter.setObjectMapper(objectMapper);
+	return jsonConverter;
+    }
+
+    private FormHttpMessageConverter createFormHttpMessage(final List<HttpMessageConverter<?>> converters) {
+	converters.add(createByteArrayHttpConverter());
 	final FormHttpMessageConverter converter = new FormHttpMessageConverter();
 	final MediaType mediaType = new MediaType("application", "x-www-form-urlencoded", Charset.forName("UTF-8"));
 	converter.setSupportedMediaTypes(Arrays.asList(mediaType));
-	messageConverters.add(converter);
-	return messageConverters;
+	return converter;
     }
 
     /** Configure our converter for String */

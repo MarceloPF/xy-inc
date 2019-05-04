@@ -3,7 +3,6 @@ package com.marcelo.xyinc.repository.impl;
 import java.io.Serializable;
 import java.util.List;
 
-import org.hibernate.LockOptions;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
@@ -28,8 +27,13 @@ public class GenericRepositoryImpl<K extends Serializable, E extends Serializabl
 
     @Override
     public E update(final E object) {
-	getSession().update(object);
-	return object;
+	final E existObject = load(object);
+	E result = null;
+	if (existObject != null) {
+	    getSession().update(object);
+	    result = object;
+	}
+	return result;
     }
 
     @SuppressWarnings("unchecked")
@@ -52,9 +56,9 @@ public class GenericRepositoryImpl<K extends Serializable, E extends Serializabl
     private <E> E load(final E object) {
 	final DetachedCriteria criteria = DetachedCriteria.forClass(((Object) object).getClass());
 	criteria.add(Restrictions.eq("id", ((GenericModel) object).getId()));
-	final E result = (E) criteria.getExecutableCriteria(getSession()).uniqueResult();
+	E result = (E) criteria.getExecutableCriteria(getSession()).uniqueResult();
 	if (result != null) {
-	    getSession().buildLockRequest(LockOptions.NONE).lock(result);
+	    getSession().evict(result);
 	}
 	return result;
     }

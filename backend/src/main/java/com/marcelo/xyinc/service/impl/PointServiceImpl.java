@@ -38,17 +38,17 @@ public class PointServiceImpl extends GenericServiceImpl<Integer, Point> impleme
 
     @Override
     public Boolean validName(final Point point) {
-	return StringUtils.isNotBlank(point.getName());
+	return point != null && StringUtils.isNotBlank(point.getName());
     }
 
     @Override
     public Boolean validCoordinationX(final Point point) {
-	return point.getPoint_x() != null && point.getPoint_x() > 0;
+	return point != null && point.getPoint_x() != null && point.getPoint_x() > 0;
     }
 
     @Override
     public Boolean validCoordinationY(final Point point) {
-	return point.getPoint_y() != null && point.getPoint_y() > 0;
+	return point != null && point.getPoint_y() != null && point.getPoint_y() > 0;
     }
 
     @Override
