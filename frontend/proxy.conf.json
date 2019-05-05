@@ -1,0 +1,6 @@
+{
+    "/rest/api/v1/point": {
+        "target": "http://localhost:8080/xy-inc",
+        "secure": false
+    }
+}
