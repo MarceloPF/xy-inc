@@ -19,10 +19,12 @@ export class PointListComponent implements OnInit {
     }
 
     reloadData() {
-        this.points = this.pointService.getPointsList();
+        this.pointService.getPointsList()
+            .subscribe(data => this.points = data.points
+            );
     }
 
-    deletePoit(id: number) {
+    deletePoint(id: number) {
         this.pointService.deletePoint(id)
             .subscribe(
                 data => {

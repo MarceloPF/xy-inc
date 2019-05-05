@@ -10,15 +10,16 @@
                     <th>Name</th>
                     <th>Point X</th>
                     <th>Point Y</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let point of points | async">
+                <tr *ngFor="let point of points">
                     <td>{{point.id}}</td>
                     <td>{{point.name}}</td>
                     <td>{{point.point_x}}</td>
                     <td>{{point.point_y}}</td>
-                    <td><button (click)="deletePoint(point.id)">Delete</button></td>
+                    <td><button class="btn btn-primary" (click)="deletePoint(point.id)">Delete</button></td>
                 </tr>
             </tbody>
         </table>
