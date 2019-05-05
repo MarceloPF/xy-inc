@@ -1,3 +1,26 @@
-<p>
-  point-list works!
-</p>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h1>Points</h1>
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>Name</th>
+                    <th>Point X</th>
+                    <th>Point Y</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let point of points | async">
+                    <td>{{point.id}}</td>
+                    <td>{{point.name}}</td>
+                    <td>{{point.point_x}}</td>
+                    <td>{{point.point_y}}</td>
+                    <td><button (click)="deletePoint(point.id)">Delete</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
