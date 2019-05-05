@@ -3,4 +3,5 @@ export class Point {
     name: string;
     point_x: number;
     point_y: number;
+
 }
