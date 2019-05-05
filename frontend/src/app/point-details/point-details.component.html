@@ -1,3 +1,18 @@
-<p>
-  point-details works!
-</p>
+<div *ngIf="point">
+    <div>
+        <label>Id: </label> {{point.id}}
+    </div>
+    <div>
+        <label>Name: </label> {{point.name}}
+    </div>
+    <div>
+        <label>Point X: </label> {{point.point_x}}
+    </div>
+    <div>
+        <label>Point Y: </label> {{point.point_y}}
+    </div>
+
+    <span class="button is-small btn-danger" (click)='deletePoint()'>Delete</span>
+
+    <hr />
+</div>
