@@ -19,7 +19,11 @@
                     <td>{{point.name}}</td>
                     <td>{{point.point_x}}</td>
                     <td>{{point.point_y}}</td>
-                    <td><button class="btn btn-primary" (click)="deletePoint(point.id)">Delete</button></td>
+                    <td>
+                        <button class="btn btn-danger" (click)="deletePoint(point.id)">Delete</button>
+                        &nbsp;
+                        <button class="btn btn-primary" [routerLink]="['/point-edit', point.id]">Edit</button>
+                    </td>
                 </tr>
             </tbody>
         </table>

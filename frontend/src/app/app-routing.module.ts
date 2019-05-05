@@ -7,6 +7,7 @@ const routes: Routes = [
     { path: '', redirectTo: 'point', pathMatch: 'full' },
     { path: 'points', component: PointListComponent },
     { path: 'add', component: CreatePointComponent },
+    { path: 'point-edit', component: CreatePointComponent },
 
 ];
 
