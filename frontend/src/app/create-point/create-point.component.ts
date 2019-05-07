@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Point } from '../point';
 import { PointService } from '../point.service';
-import { EditPointComponent } from '../edit-point/edit-point.component';
 
 @Component({
     selector: 'app-create-point',
