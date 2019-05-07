@@ -86,8 +86,7 @@ public class PointControllerRest {
     @PostMapping(value = "/point", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createPoint(@RequestBody Point point) {
 	final Point result = poitService.save(point);
-	final ResponseEntity<?> response = answerRequestOne(result);
-	return response;
+	return answerRequestOne(result);
     }
 
     /**
@@ -103,8 +102,23 @@ public class PointControllerRest {
     @ResponseBody
     public ResponseEntity<?> updatePoint(@PathVariable(value = "id") Long id, @Valid @RequestBody Point point) {
 	final Point result = poitService.update(point);
-	final ResponseEntity<?> response = answerRequestOne(result);
-	return response;
+	return answerRequestOne(result);
+    }
+
+    /**
+     * find one point url for request /rest/api/v1/point/{id}
+     * 
+     * Request type: PUT
+     * 
+     * @param: Point one point
+     * 
+     * @return: JSON Point
+     */
+    @GetMapping(value = "/point/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<?> findById(@PathVariable(value = "id") Integer id) {
+	final Point result = poitService.findById(id, Point.class);
+	return answerRequestOne(result);
     }
 
     private ResponseEntity<?> answerRequestOne(final Point result) {
@@ -145,9 +159,7 @@ public class PointControllerRest {
     @ResponseBody
     public ResponseEntity<?> findAllPoints() {
 	final List<Point> result = poitService.findAll(Point.class);
-	final ResponseEntity<?> response;
-	response = sendListRequest(result);
-	return response;
+	return sendListRequest(result);
     }
 
     private ResponseEntity<?> sendListRequest(final List<Point> result) {
@@ -179,9 +191,7 @@ public class PointControllerRest {
 	    @RequestParam(value = "coordinationY", required = true) final Float coordination_y,
 	    @RequestParam(value = "maximumDistanceD", required = true) final Float maximumDistance_D) {
 	final List<Point> result = poitService.searchForNearbyPoints(coordination_x, coordination_y, maximumDistance_D);
-	final ResponseEntity<?> response;
-	response = sendListRequest(result);
-	return response;
+	return sendListRequest(result);
     }
 
 }
