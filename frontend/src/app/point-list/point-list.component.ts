@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Point } from '../point';
 import { Observable } from 'rxjs';
 import { PointService } from '../point.service';
+import { CreatePointComponent } from '../create-point/create-point.component';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-point-list',
@@ -12,7 +14,7 @@ export class PointListComponent implements OnInit {
 
     points: Observable<Point[]>;
 
-    constructor(private pointService: PointService) { }
+    constructor(private pointService: PointService, private router: Router) { }
 
     ngOnInit() {
         this.reloadData();
@@ -32,6 +34,13 @@ export class PointListComponent implements OnInit {
                     this.reloadData();
                 },
                 error => console.log(error));
+    }
+
+    editPoint(id: number) {
+        localStorage.removeItem('editPointId');
+        localStorage.setItem('editPointId', id.toString());
+        this.router.navigate(['edit']);
+
     }
 
 }

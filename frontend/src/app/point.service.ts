@@ -23,6 +23,10 @@ export class PointService {
         return this.http.delete(`${this.baseUrl}/${id}`, { responseType: 'text' });
     }
 
+    findById(id: number): Observable<any> {
+        return this.http.get(`${this.baseUrl}/${id}`);
+    }
+
     getPointsList(): Observable<any> {
         return this.http.get(`${this.baseUrl}`);
     }

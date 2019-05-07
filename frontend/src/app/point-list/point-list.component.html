@@ -22,7 +22,7 @@
                     <td>
                         <button class="btn btn-danger" (click)="deletePoint(point.id)">Delete</button>
                         &nbsp;
-                        <button class="btn btn-primary" [routerLink]="['/point-edit', point.id]">Edit</button>
+                        <button class="btn btn-primary" (click)="editPoint(point.id)">Edit</button>
                     </td>
                 </tr>
             </tbody>
