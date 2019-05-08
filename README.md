@@ -30,8 +30,8 @@ Instructions for use a POC
   - Import as Maven project
     - go to path\backend
   - For test
-	- ## mvn test, for backend services and repositories
-	- # test for RestFULL-API
+	- ### mvn test, for backend services and repositories
+	- ### test for RestFULL-API
 		- Has use Soapui, one program can do call for rest (https://www.soapui.org)
 		- In folder 
 		  - path\backend\src\test\java\resouces has a file for SoapUI test API
