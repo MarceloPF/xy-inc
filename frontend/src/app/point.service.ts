@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { SearchPoint } from './SearchPoint';
 
 @Injectable({
     providedIn: 'root'
@@ -29,5 +30,12 @@ export class PointService {
 
     getPointsList(): Observable<any> {
         return this.http.get(`${this.baseUrl}`);
+    }
+
+    searchForNearbyPoints(point: SearchPoint): Observable<any> {
+        let params = 'coordinationX=' + point.coordinationX;
+        params += '&coordinationY=' + point.coordinationY;
+        params += '&maximumDistanceD=' + point.maximumDistanceD;
+        return this.http.get(`${this.baseUrl}/searchForNearbyPoints?${params}`);
     }
 }

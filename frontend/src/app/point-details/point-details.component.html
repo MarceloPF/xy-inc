@@ -1,18 +1,44 @@
-<div *ngIf="point">
-    <div>
-        <label>Id: </label> {{point.id}}
-    </div>
-    <div>
-        <label>Name: </label> {{point.name}}
-    </div>
-    <div>
-        <label>Point X: </label> {{point.point_x}}
-    </div>
-    <div>
-        <label>Point Y: </label> {{point.point_y}}
-    </div>
+<div style="width: 400px;">
+    <form (ngSubmit)="onSubmit()">
 
-    <span class="button is-small btn-danger" (click)='deletePoint()'>Delete</span>
+        <div class="form-group">
+            <label for="name">Coordination X </label>
+            <input type="number" class="form-control" name="coordinationX" placeholder="Decimal" [(ngModel)]="point.coordinationX" 
+            ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" />
+        </div>
+        
+        <div class="form-group">
+            <label for="name">Coordination Y</label>
+            <input type="number" class="form-control" name="coordinationY" placeholder="Decimal" [(ngModel)]="point.coordinationY"
+             ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" />
+        </div>
+        <div class="form-group">
+            <label for="name">maximumDistance D</label>
+            <input type="number" class="form-control" name="maximumDistanceD" placeholder="Decimal" [(ngModel)]="point.maximumDistanceD"
+             ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" />
+        </div>
 
-    <hr />
+
+        <button type="submit" class="btn btn-success">Submit</button>
+    </form>
 </div>
+<div class="panel-body">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>Name</th>
+                    <th>Point X</th>
+                    <th>Point Y</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let point of points">
+                    <td>{{point.id}}</td>
+                    <td>{{point.name}}</td>
+                    <td>{{point.point_x}}</td>
+                    <td>{{point.point_y}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
