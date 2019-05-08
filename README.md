@@ -21,7 +21,7 @@ Instructions for use a POC
   - That: git clone https://github.com/MarceloPF/xy-inc.git xy-inc
   
 # Project backend
-  - Pre Requisites
+  - Pre-Requisites
 	- Eclipse
 	- Maven
 	- Tomcat
@@ -31,25 +31,25 @@ Instructions for use a POC
     - go to path\backend
   - For test
 	- # mvn test, for backend services and repositories
-	- # test for RestFULl-API
-		- Has use Soapui, one program can doing call for rest
+	- # test for RestFULL-API
+		- Has use Soapui, one program can do call for rest (https://www.soapui.org)
 		- In folder 
 		  - path\backend\src\test\java\resouces has a file for SoapUI test API
 		  - Import project SoapUI for doing a test API Rest
   - What need for start
     - Server Container "apache-tomcat-9.0.19" or more version
-	- Configure Tomcat YOUR IDE (Sugestion Eclipse)
+	- Configure Tomcat YOUR IDE (Suggestion Eclipse)
 	- Add project for Tomcat
 	- Start Tomcat
 	
 # Project frontend
 
- - Pre Requisites
+ - Pre-Requisites
  - Install node.js npm 
- - Needed  npm Package Manager(If no has, Need Install or configure in yuor system)
+ - Needed  npm Package Manager (If no has, Need Install or configure in your system)
 
  - go to path\backend (Use the terminal of your system)
- - npm start (Run that command for confire routs correct)
+ - npm start (Run that command for configure routs correct)
  - For test
    - Not implemented test this application
  
