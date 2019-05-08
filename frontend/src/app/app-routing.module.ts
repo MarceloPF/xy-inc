@@ -5,9 +5,9 @@ import { CreatePointComponent } from './create-point/create-point.component';
 
 const routes: Routes = [
     { path: '', redirectTo: 'point', pathMatch: 'full' },
-    { path: 'list', component: PointListComponent },
-    { path: 'add', component: CreatePointComponent },
-    { path: 'edit', component: CreatePointComponent },
+    { path: 'point/list', component: PointListComponent },
+    { path: 'point/add', component: CreatePointComponent },
+    { path: 'point/edit/:id', component: CreatePointComponent },
     {path : '', component : PointListComponent}
 
 ];

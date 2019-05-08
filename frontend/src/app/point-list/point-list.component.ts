@@ -39,7 +39,7 @@ export class PointListComponent implements OnInit {
     editPoint(id: number) {
         localStorage.removeItem('editPointId');
         localStorage.setItem('editPointId', id.toString());
-        this.router.navigate(['edit']);
+        this.router.navigate(['point/edit/' + id]);
 
     }
 
